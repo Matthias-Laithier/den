@@ -4,23 +4,21 @@ from typing import ClassVar
 from textual import on, work
 from textual.app import App, ComposeResult
 from textual.binding import Binding, BindingType
-from textual.containers import Center, Middle
-from textual.widgets import Button, Static
+from textual.containers import Center, Vertical
+from textual.widgets import Button, Footer, Static
 
 from den.machine.settings import Settings
 from den.services.folder_picker import FolderPickerUnavailable, pick_folder
+from den.theme import STYLESHEET, THEME
 
 __all__ = ["FilesSetup"]
 
 PICKER_PROMPT = "Select your config folder"
-SETUP_CSS = """
-#setup-message, #setup-error { width: auto; margin: 1 0; }
-#setup-error { color: $error; }
-"""
 
 
 class FilesSetup(App[Path]):
-    CSS = SETUP_CSS
+    TITLE = "den"
+    CSS_PATH = STYLESHEET
     BINDINGS: ClassVar[list[BindingType]] = [Binding("q", "quit", "Quit")]
 
     def __init__(self, settings: Settings) -> None:
@@ -28,13 +26,20 @@ class FilesSetup(App[Path]):
         self.settings = settings
 
     def compose(self) -> ComposeResult:
-        with Middle():
-            with Center():
-                yield Static("den needs the git repository holding your configs.", id="setup-message")
-            with Center():
-                yield Button(PICKER_PROMPT, id="select-folder", variant="primary")
-            with Center():
-                yield Static("", id="setup-error")
+        with Center(id="setup-screen"), Vertical(id="setup"):
+            yield Static("Welcome to den", classes="dialog-title")
+            yield Static(
+                "Pick the git repository holding your configs. den remembers it.",
+                classes="dialog-hint",
+            )
+            with Center(id="setup-actions"):
+                yield Button(PICKER_PROMPT, id="select-folder", variant="primary", compact=True)
+            yield Static("", id="setup-error")
+        yield Footer()
+
+    def on_mount(self) -> None:
+        self.theme = THEME
+        self.query_one("#select-folder", Button).focus()
 
     @on(Button.Pressed, "#select-folder")
     def select_folder(self) -> None:
@@ -60,4 +65,6 @@ class FilesSetup(App[Path]):
         self.exit(folder)
 
     def show_error(self, message: str) -> None:
-        self.query_one("#setup-error", Static).update(message)
+        error = self.query_one("#setup-error", Static)
+        error.update(message)
+        error.add_class("shown")

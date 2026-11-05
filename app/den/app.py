@@ -26,9 +26,8 @@ from den.screens.secrets import SecretsPane
 from den.screens.setup import FilesSetup
 from den.screens.skills import SkillsPane
 from den.services.git import GitError, Repo, RepoState
+from den.theme import STYLESHEET, THEME
 
-STYLESHEET = Path(__file__).parents[1] / "assets" / "styles" / "den.tcss"
-THEME = "tokyo-night"
 STATE_REFRESH_SECONDS = 5
 BACKGROUND_ERROR_SECONDS = 15
 PANES = [
