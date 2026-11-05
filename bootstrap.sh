@@ -52,38 +52,6 @@ clone_tool() {
     fi
 }
 
-clone_files() (
-    printf 'GitHub repo holding your den files (owner/name, empty to skip): ' >/dev/tty
-    IFS= read -r files_repository </dev/tty
-    [ -n "$files_repository" ] || return 0
-    case "$files_repository" in
-        */*/*|/*|*/|*\\*)
-            printf 'Expected owner/name.\n' >&2
-            exit 1
-            ;;
-        */*) ;;
-        *)
-            printf 'Expected owner/name.\n' >&2
-            exit 1
-            ;;
-    esac
-    files_target="$HOME/repos/${files_repository#*/}"
-    if [ "$files_target" = "$TARGET" ]; then
-        printf 'Your files repo cannot be cloned to %s: that is where den lives. Clone it elsewhere and pick it on first launch.\n' "$files_target" >&2
-        exit 1
-    fi
-    if [ -d "$files_target/.git" ]; then
-        return 0
-    fi
-    if ! gh auth status >/dev/null 2>&1; then
-        gh auth login --hostname github.com --git-protocol https --web </dev/tty
-        gh auth setup-git
-    fi
-    mkdir -p "$(dirname "$files_target")"
-    gh repo clone "$files_repository" "$files_target"
-)
-
 install_prerequisites
 clone_tool
-clone_files
 exec "$TARGET/den" </dev/tty

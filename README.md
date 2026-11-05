@@ -10,9 +10,9 @@ The tool and your files live in separate repositories. This repository holds the
 curl -fsSL https://raw.githubusercontent.com/Matthias-Laithier/den/master/bootstrap.sh | sh
 ```
 
-`bootstrap.sh` installs git, `gh`, and `uv`. It clones the den tool repository to `~/repos/den` (or `$DEN_HOME`) over HTTPS, with no GitHub login. It then asks for the GitHub repository holding your den files. If you give one, it logs in to GitHub when needed and clones the repository to `~/repos/<name>`. It opens den at the end.
+`bootstrap.sh` installs git, `gh`, and `uv`, clones the den tool repository to `~/repos/den` (or `$DEN_HOME`) over HTTPS with no GitHub login, and opens den.
 
-On first launch, den asks for the folder holding your files repository and stores it as `files = "<path>"` in `~/.config/den/config.toml`. You can skip the bootstrap clone and pick an existing folder.
+On first launch, den asks for the folder holding your files repository and stores it as `files = "<path>"` in `~/.config/den/config.toml`. Clone your files repository before that, for example with `gh repo clone <owner>/<name> ~/repos/<name>`.
 
 ## Daily use
 
@@ -73,7 +73,7 @@ Pick `~/repos/den-files` when den asks for the files folder. Press `ctrl+a` on O
 ## Tool layout
 
 - `app/`: the TUI (Python, Textual), its tests and styles
-- `bootstrap.sh`: installs prerequisites, clones the repositories, and opens den
+- `bootstrap.sh`: installs prerequisites, clones den, and opens it
 - `den`: the launcher
 - `.githooks/`: the pre-commit hook that scans commits with gitleaks
 
