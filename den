@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+root="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd)"
+command_link="$HOME/.local/bin/den"
+
+if [ "$(readlink "$command_link" 2>/dev/null)" != "$root/den" ]; then
+    mkdir -p "$(dirname "$command_link")"
+    ln -sf "$root/den" "$command_link"
+fi
+
+if ! command -v uv >/dev/null 2>&1; then
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    export PATH="$HOME/.local/bin:$PATH"
+fi
+
+exec uv run --quiet --frozen --project "$root/app" den "$@"

@@ -1,0 +1,30 @@
+[project]
+name = "den"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "pyrage>=1.4.0",
+    "pyyaml>=6.0.3",
+    "textual>=8.2",
+    "tomlkit>=0.15.1",
+]
+
+[project.scripts]
+den = "den.app:run"
+
+[build-system]
+requires = ["uv_build>=0.9,<0.13"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-root = ""
+
+[tool.ruff]
+line-length = 120
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "ruff>=0.6",
+    "ty>=0.0.85",
+]

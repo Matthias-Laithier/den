@@ -1,0 +1,139 @@
+Screen {
+    overflow: hidden;
+}
+
+TabbedContent, TabbedContent > ContentSwitcher, TabPane {
+    height: 1fr;
+}
+
+StatusBar {
+    dock: top;
+    height: 1;
+    padding: 0 1;
+    background: $panel;
+}
+
+.pane-title {
+    padding: 0 1;
+    color: $text-muted;
+}
+
+.split {
+    height: 1fr;
+}
+
+.list {
+    width: 2fr;
+    border: round $primary-darken-2;
+}
+
+.detail {
+    width: 3fr;
+    border: round $primary-darken-2;
+}
+
+#commit-message {
+    dock: bottom;
+}
+
+#tasks-table {
+    height: 1fr;
+}
+
+#packages-table {
+    height: 2fr;
+}
+
+ModalScreen {
+    align: center middle;
+}
+
+.dialog {
+    width: 70;
+    height: auto;
+    padding: 1 2;
+    border: thick $primary;
+    background: $surface;
+}
+
+.dialog.wide {
+    width: 90%;
+    height: 85%;
+}
+
+.dialog-title {
+    text-style: bold;
+    margin-bottom: 1;
+}
+
+.dialog-hint {
+    color: $text-muted;
+}
+
+#skills-sidebar {
+    width: 42;
+    border: round $primary-darken-2;
+}
+
+#skills-filter {
+    border: none;
+    height: 1;
+    padding: 0 1;
+    background: $boost;
+}
+
+#skills-table {
+    height: 1fr;
+    overflow-x: hidden;
+}
+
+#skill-preview {
+    width: 1fr;
+    border: round $primary-darken-2;
+}
+
+#skill-header, #instructions-header {
+    height: auto;
+    max-height: 4;
+    padding: 0 1;
+    border-bottom: solid $primary-darken-2;
+}
+
+#skill-files {
+    width: auto;
+    max-width: 36;
+    min-width: 20;
+    border: none;
+    border-right: solid $primary-darken-2;
+    background: transparent;
+}
+
+DocumentView {
+    padding: 0 2;
+}
+
+DocumentView MarkdownH1 {
+    content-align: left middle;
+    text-align: left;
+}
+
+#instructions-document {
+    border: round $primary-darken-2;
+}
+
+.summary {
+    height: auto;
+    padding: 0 1;
+    margin-bottom: 1;
+    border: round $primary-darken-2;
+}
+
+Tabs:focus .-active {
+    text-style: bold;
+    color: $foreground;
+    background: transparent;
+}
+
+Tabs:focus .underline--bar {
+    background: $foreground 10%;
+}
