@@ -1,5 +1,4 @@
 import os
-from pathlib import Path
 from typing import ClassVar
 
 from rich.text import Text
