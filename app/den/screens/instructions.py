@@ -43,10 +43,11 @@ class InstructionsPane(Pane):
         statuses = [agents.status(agent) for agent in self.context.manifest().agents]
         linked = [status.agent.name for status in statuses if status.instructions == agents.LINKED]
         diff = self.context.repo.diff_path(instructions_file())
-        self.app.call_from_thread(self.show, linked, diff)
+        text = instructions_file().read_text(errors="replace")
+        self.app.call_from_thread(self.show, linked, diff, text)
 
-    def show(self, linked: list[str], diff: str) -> None:
-        if self.is_already_shown((linked, diff)):
+    def show(self, linked: list[str], diff: str, text: str) -> None:
+        if self.is_already_shown((linked, diff, text)):
             return
         self.diff = diff
         self.query_one("#instructions-header", Static).update(_header(linked, diff))
