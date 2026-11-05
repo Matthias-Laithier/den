@@ -44,14 +44,13 @@ class InstallPane(Pane):
         packages_table = self.query_one("#packages-table", DataTable)
         packages_table.add_columns("", "State", "Package", "Group", "With", "Update")
         self.query_one("#tasks-table", DataTable).add_columns("State", "Task", "Description")
-        self.reload()
         self.action_check_updates()
 
     @work(thread=True, exit_on_error=False, exclusive=True)
     def reload(self) -> None:
         manifest = self.context.manifest()
         installed = packages.statuses(manifest.packages)
-        task_states = {task.name: tasks.state(task) for task in manifest.tasks}
+        task_states = tasks.states(manifest.tasks)
         self.app.call_from_thread(self.show, manifest, installed, task_states)
 
     def show(self, manifest: Manifest, installed: dict[str, bool], task_states: dict[str, str]) -> None:

@@ -38,9 +38,6 @@ class InstructionsPane(Pane):
         yield Static(id="instructions-header")
         yield DocumentView(id="instructions-document")
 
-    def on_mount(self) -> None:
-        self.reload()
-
     @work(thread=True, exit_on_error=False, exclusive=True)
     def reload(self) -> None:
         statuses = [agents.status(agent) for agent in self.context.manifest().agents]

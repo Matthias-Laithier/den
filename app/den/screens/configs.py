@@ -38,7 +38,6 @@ class ConfigsPane(Pane):
 
     def on_mount(self) -> None:
         self.query_one(DataTable).add_columns("State", "Package", "Path in home")
-        self.reload()
 
     @work(thread=True, exit_on_error=False, exclusive=True)
     def reload(self) -> None:

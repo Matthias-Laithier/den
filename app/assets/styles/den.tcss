@@ -176,7 +176,3 @@ Tabs:focus .underline--bar {
 #setup-error.shown {
     display: block;
 }
-
-#overview-table {
-    height: 1fr;
-}

@@ -49,7 +49,6 @@ class SkillsPane(Pane):
 
     def on_mount(self) -> None:
         self.query_one(DataTable).add_column("Skill")
-        self.reload()
 
     @work(thread=True, exit_on_error=False, exclusive=True)
     def reload(self) -> None:

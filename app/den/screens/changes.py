@@ -57,6 +57,7 @@ class ChangesPane(Pane):
         self.app.call_from_thread(self.show, state)
 
     async def show(self, state: RepoState) -> None:
+        self.loading = False
         if state.changes == self.changes:
             return
         self.changes = state.changes

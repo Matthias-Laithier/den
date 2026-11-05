@@ -102,6 +102,8 @@ class Den(App):
 
     def on_worker_state_changed(self, event: Worker.StateChanged) -> None:
         if event.state == WorkerState.ERROR:
+            if isinstance(event.worker.node, Pane):
+                event.worker.node.loading = False
             self.notify(
                 str(event.worker.error), title="Something failed", severity="error", timeout=BACKGROUND_ERROR_SECONDS
             )

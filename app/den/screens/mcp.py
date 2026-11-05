@@ -37,9 +37,6 @@ class McpPane(Pane):
         yield DataTable(id="mcp-table", cursor_type="row")
         yield Static(id="mcp-extras", classes="pane-title")
 
-    def on_mount(self) -> None:
-        self.reload()
-
     @work(thread=True, exit_on_error=False, exclusive=True)
     def reload(self) -> None:
         servers = catalog.load_servers()

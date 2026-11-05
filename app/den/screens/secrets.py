@@ -29,7 +29,6 @@ class SecretsPane(Pane):
 
     def on_mount(self) -> None:
         self.query_one(DataTable).add_columns("Secret", "On this machine")
-        self.reload()
 
     def reload(self) -> None:
         local = secrets.local_names()

@@ -53,7 +53,6 @@ class AgentsPane(Pane):
         self.query_one(DataTable).add_columns(
             "Agent", "Skills", "Instructions", "Settings", "Version", "Skills not in den"
         )
-        self.reload()
 
     @work(thread=True, exit_on_error=False, exclusive=True)
     def reload(self) -> None:

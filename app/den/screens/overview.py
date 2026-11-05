@@ -13,8 +13,6 @@ from den.screens.dialogs import ConfirmScreen
 from den.screens.pane import Pane
 
 WORK_PROFILE = "work"
-TITLE = "Everything this machine should have, from the repo"
-LOADING_TITLE = "Checking this machine…"
 BYTES_PER_MEGABYTE = 1024 * 1024
 
 
@@ -42,7 +40,7 @@ def backups_state() -> str:
 def summarize(context: Context) -> Summary:
     manifest = context.manifest()
     installed = packages.statuses(manifest.packages).values()
-    task_states = [tasks.state(task) for task in manifest.tasks]
+    task_states = list(tasks.states(manifest.tasks).values())
     link_states = [link.state for link in links.plan_all(manifest.link_packages)]
     agent_states = [agents.status(agent).skills for agent in manifest.agents]
     secret_state = (
@@ -77,26 +75,16 @@ class OverviewPane(Pane):
     ]
 
     def compose(self) -> ComposeResult:
-        yield Static(LOADING_TITLE, classes="pane-title", id="overview-title")
+        yield Static("Everything this machine should have, from the repo", classes="pane-title")
         yield DataTable(id="overview-table", cursor_type="row")
 
     def on_mount(self) -> None:
-        table = self.query_one(DataTable)
-        table.add_columns("Area", "State")
-        table.loading = True
-        self.reload()
+        self.query_one(DataTable).add_columns("Area", "State")
 
     @work(thread=True, exit_on_error=False, exclusive=True)
     def reload(self) -> None:
-        try:
-            summary = summarize(self.context)
-        finally:
-            self.app.call_from_thread(self.stop_loading)
+        summary = summarize(self.context)
         self.app.call_from_thread(self.show, summary)
-
-    def stop_loading(self) -> None:
-        self.query_one(DataTable).loading = False
-        self.query_one("#overview-title", Static).update(TITLE)
 
     def show(self, summary: Summary) -> None:
         if self.is_already_shown(summary):

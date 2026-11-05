@@ -20,7 +20,11 @@ class Pane(Container):
     def reload(self) -> None:
         raise NotImplementedError
 
+    def on_mount(self) -> None:
+        self.loading = True
+
     def is_already_shown(self, data: object) -> bool:
+        self.loading = False
         if data == self.shown:
             return True
         self.shown = data
