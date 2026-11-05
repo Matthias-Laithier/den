@@ -6,7 +6,7 @@ dev:
 	./den
 
 install:
-	uv sync --project $(APP)
+	uv sync --locked --project $(APP)
 
 format:
 	uv run --project $(APP) ruff format $(APP)
