@@ -1,5 +1,4 @@
 import os
-import sys
 from pathlib import Path
 from typing import ClassVar
 
@@ -24,8 +23,8 @@ from den.screens.mcp import McpPane
 from den.screens.overview import OverviewPane
 from den.screens.pane import Pane
 from den.screens.secrets import SecretsPane
+from den.screens.setup import FilesSetup
 from den.screens.skills import SkillsPane
-from den.services.folder_picker import pick_folder
 from den.services.git import GitError, Repo, RepoState
 
 STYLESHEET = Path(__file__).parents[1] / "assets" / "styles" / "den.tcss"
@@ -123,24 +122,12 @@ class Den(App):
 
 
 def run() -> None:
-    from den.services.folder_picker import FolderPickerUnavailable
-
     settings = Settings.load()
     files = settings.files
     if files is None or not (files / ".git").exists():
-        try:
-            files = pick_folder("Pick the git repository holding your den files")
-        except FolderPickerUnavailable as error:
-            print(error, file=sys.stderr)
-            raise SystemExit(1)
+        files = FilesSetup(settings).run()
         if files is None:
-            print("den needs a files repository to run", file=sys.stderr)
-            raise SystemExit(1)
-        if not (files / ".git").exists():
-            print(f"Not a git repository: {files}", file=sys.stderr)
-            raise SystemExit(1)
-        settings.files = files
-        settings.save()
+            return
     os.environ[FILES_ENV] = str(files)
     os.environ["DEN_ROOT"] = str(files)
     Den(Context(detect(), settings, Repo(files), Repo(ROOT))).run()
