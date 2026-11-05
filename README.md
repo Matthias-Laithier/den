@@ -12,7 +12,7 @@ curl -fsSL https://raw.githubusercontent.com/Matthias-Laithier/den/master/bootst
 
 `bootstrap.sh` installs git, `gh`, and `uv`, clones the den tool repository to `~/repos/den` (or `$DEN_HOME`) over HTTPS with no GitHub login, and opens den.
 
-On first launch, den shows a "Select your config folder" button that opens the system folder picker. It stores the chosen git repository as `files = "<path>"` in `~/.config/den/config.toml`. Clone your files repository before that, for example with `gh repo clone <owner>/<name> ~/repos/<name>`.
+On first launch, den shows a "Select your config folder" button that opens the system folder picker. It stores the chosen git repository as `files = "<path>"` in `~/.config/den/config.toml`. Clone your files repository before that, for example with `gh repo clone <owner>/<name> ~/repos/<name>`. To start a new one, copy [`example/`](example), a small files repository with one example of everything den manages.
 
 ## Daily use
 

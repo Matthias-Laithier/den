@@ -1,0 +1,13 @@
+[claude]
+home = "~/.claude"
+skills = "~/.claude/skills"
+package = "claude-code"
+version = "claude --version"
+instructions = "~/.claude/CLAUDE.md"
+
+[codex]
+home = "~/.codex"
+skills = "~/.codex/skills"
+package = "codex"
+version = "codex --version"
+instructions = "~/.codex/AGENTS.md"

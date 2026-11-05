@@ -1,0 +1,51 @@
+[git]
+group = "core"
+brew = "git"
+pacman = "git"
+apt = "git"
+check = "command -v git"
+
+[ripgrep]
+group = "cli"
+brew = "ripgrep"
+pacman = "ripgrep"
+apt = "ripgrep"
+
+[fd]
+group = "cli"
+brew = "fd"
+pacman = "fd"
+apt = "fd-find"
+post_install.debian = "mkdir -p ~/.local/bin && ln -sf \"$(command -v fdfind)\" ~/.local/bin/fd"
+
+[starship]
+group = "shell"
+brew = "starship"
+pacman = "starship"
+script.debian = "curl -sS https://starship.rs/install.sh | sh -s -- --yes"
+check = "command -v starship"
+
+[ghostty]
+group = "shell"
+cask = "ghostty"
+pacman = "ghostty"
+
+[ruff]
+group = "python"
+brew = "ruff"
+uv_tool = "ruff"
+
+[pnpm]
+group = "dev"
+brew = "pnpm"
+npm = "pnpm"
+
+[visual-studio-code-bin]
+group = "dev"
+os = ["arch"]
+aur = "visual-studio-code-bin"
+
+[slack]
+group = "work"
+profiles = ["work"]
+cask = "slack"

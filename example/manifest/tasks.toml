@@ -1,0 +1,13 @@
+[zsh-login-shell]
+description = "Use zsh as the login shell"
+check = "test \"$(basename \"$SHELL\")\" = zsh"
+run = "chsh -s \"$(command -v zsh)\""
+
+[git-defaults]
+description = "Set git defaults from a script in this repository"
+check = "git config --global init.defaultBranch"
+run = "\"$DEN_ROOT/scripts/git-defaults.sh\""
+
+[ssh-key]
+description = "Create an SSH key and add it to GitHub"
+manual = "Run ssh-keygen -t ed25519, then gh ssh-key add ~/.ssh/id_ed25519.pub"

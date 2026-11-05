@@ -1,0 +1,6 @@
+[claude."~/.claude/settings.json"]
+theme = "dark"
+includeCoAuthoredBy = false
+
+[codex."~/.codex/config.toml"]
+model_reasoning_effort = "high"
