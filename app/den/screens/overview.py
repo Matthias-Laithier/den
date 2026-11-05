@@ -13,6 +13,8 @@ from den.screens.dialogs import ConfirmScreen
 from den.screens.pane import Pane
 
 WORK_PROFILE = "work"
+TITLE = "Everything this machine should have, from the repo"
+LOADING_TITLE = "Checking this machine…"
 BYTES_PER_MEGABYTE = 1024 * 1024
 
 
@@ -75,17 +77,26 @@ class OverviewPane(Pane):
     ]
 
     def compose(self) -> ComposeResult:
-        yield Static("Everything this machine should have, from the repo", classes="pane-title")
+        yield Static(LOADING_TITLE, classes="pane-title", id="overview-title")
         yield DataTable(id="overview-table", cursor_type="row")
 
     def on_mount(self) -> None:
-        self.query_one(DataTable).add_columns("Area", "State")
+        table = self.query_one(DataTable)
+        table.add_columns("Area", "State")
+        table.loading = True
         self.reload()
 
     @work(thread=True, exit_on_error=False, exclusive=True)
     def reload(self) -> None:
-        summary = summarize(self.context)
+        try:
+            summary = summarize(self.context)
+        finally:
+            self.app.call_from_thread(self.stop_loading)
         self.app.call_from_thread(self.show, summary)
+
+    def stop_loading(self) -> None:
+        self.query_one(DataTable).loading = False
+        self.query_one("#overview-title", Static).update(TITLE)
 
     def show(self, summary: Summary) -> None:
         if self.is_already_shown(summary):
